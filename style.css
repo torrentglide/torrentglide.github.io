@@ -1,0 +1,295 @@
+/* TorrentGlide landing page. Dark by default, light via the system preference.
+   Colours follow the TorrentGlide extension. JS (app.js) fills the install
+   section and translates the [data-i18n] text; the rules below style both. */
+
+:root {
+  color-scheme: dark;
+  /* The page sits on the demo video's backdrop: blue fading to violet. */
+  --grad:
+    radial-gradient(900px 600px at 85% -5%, #8fb0ff 0%, transparent 60%),
+    radial-gradient(800px 700px at 0% 100%, #7a4fe0 0%, transparent 60%),
+    linear-gradient(160deg, #5b7cfa 0%, #5f5ae8 55%, #6a48d6 100%);
+  --bg: #5f5ae8;
+  --surface: rgb(255 255 255 / 0.12);
+  --surface-2: rgb(255 255 255 / 0.18);
+  --border: rgb(255 255 255 / 0.22);
+  --text: #ffffff;
+  --text-muted: rgb(255 255 255 / 0.82);
+  --text-faint: rgb(255 255 255 / 0.62);
+  --accent: #ffffff;
+  --accent-strong: #e4ebff;
+  --on-accent: #3a4fd8;
+  --radius: 14px;
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --grad:
+      radial-gradient(900px 600px at 85% -5%, #3b4fa8 0%, transparent 60%),
+      radial-gradient(800px 700px at 0% 100%, #3a2a8a 0%, transparent 60%),
+      linear-gradient(160deg, #141a3a 0%, #181a42 55%, #1d1650 100%);
+    --bg: #181a42;
+    --surface: rgb(255 255 255 / 0.07);
+    --surface-2: rgb(255 255 255 / 0.12);
+    --border: rgb(255 255 255 / 0.14);
+    --on-accent: #1d2a7a;
+  }
+}
+
+* { box-sizing: border-box }
+[hidden] { display: none !important }
+html { scroll-behavior: smooth }
+body { margin: 0; background-color: var(--bg); background-image: var(--grad); background-attachment: fixed; min-height: 100vh; color: var(--text); font: 16px/1.55 var(--font) }
+a { color: var(--accent); text-decoration: none }
+a:hover { color: var(--accent-strong) }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px }
+section { padding: 56px 0 }
+h1, h2, h3 { line-height: 1.2 }
+h1 { font-size: clamp(32px, 5vw, 52px) }
+h2 { font-size: 28px }
+h3 { font-size: 18px }
+
+/* Top bar */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgb(255 255 255 / 0.06);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.top-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text);
+  text-decoration: none;
+}
+nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+nav a:hover { color: var(--text) }
+.icon-link { display: inline-flex; line-height: 0 }
+select {
+  background: var(--surface-2);
+  color: inherit;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  font: inherit;
+}
+select option { color: #14181d; background: #fff }
+
+/* Hero: video on the left, download on the right */
+.hero { padding: 48px 0 40px }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  /* The first screen fills the window under the sticky header, with a wide video. */
+  .hero {
+    min-height: calc(100vh - 58px);
+    min-height: calc(100svh - 58px);
+    display: flex;
+    align-items: center;
+    padding: 32px 0;
+  }
+  .hero > .wrap { width: 100% }
+  .hero-grid {
+    max-width: 1560px;
+    padding: 0 40px;
+    grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+    gap: 56px;
+  }
+  .hero h1 { font-size: clamp(32px, 3.2vw, 48px) }
+}
+.hero-text { text-align: left }
+.hero h1 { margin: 0 0 16px; letter-spacing: -0.02em }
+.lead {
+  color: var(--text-muted);
+  font-size: 18px;
+  margin: 0 0 28px;
+}
+.demo {
+  margin: 0;
+  min-width: 0;
+}
+.demo-frame {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 30px 80px rgb(10 10 60 / 0.45);
+  background: #000 url('screenshots/1-magnet-links.png') center / cover no-repeat;
+  overflow: hidden;
+}
+.demo video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.demo.ready video { opacity: 1 }
+.credit {
+  font-size: 12px;
+  color: var(--text-faint);
+  margin-top: 10px;
+}
+.credit a, .more a { color: inherit; text-decoration: underline; text-underline-offset: 3px }
+.more { margin: 22px 0 0; color: var(--text-muted) }
+.more a:hover { color: var(--text) }
+
+/* Buttons */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  font: inherit;
+}
+.button:hover { border-color: var(--accent) }
+.button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 8px 24px rgb(20 20 90 / 0.35);
+}
+.button.primary:hover { background: var(--accent-strong); color: var(--on-accent) }
+.button.big { font-size: 18px; padding: 14px 26px }
+
+/* Install (filled by JS) */
+.install { text-align: center; padding-top: 0 }
+.flow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+.note {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0;
+}
+#all-downloads {
+  margin: 0 auto;
+  max-width: 820px;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+}
+#all-downloads summary { cursor: pointer; font-weight: 600 }
+.downloads h3 {
+  margin: 20px 0 8px;
+  font-size: 16px;
+}
+.downloads ul { margin: 0; padding-left: 20px }
+.copy:hover { border-color: var(--accent) }
+
+/* How it works */
+.cards {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 760px) {
+  .cards { grid-template-columns: repeat(3, 1fr) }
+}
+.cards li {
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.cards p {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Screenshots */
+.shots-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+  margin-top: 24px;
+}
+@media (min-width: 760px) {
+  .shots-grid { grid-template-columns: repeat(2, 1fr) }
+}
+.shots img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.shots figure { margin: 0 }
+.shots figcaption {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Privacy */
+.privacy p {
+  color: var(--text-muted);
+  max-width: 720px;
+}
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+  nav { gap: 12px }
+  section { padding: 40px 0 }
+  .hero { padding-top: 28px }
+  .button.big { font-size: 16px; padding: 12px 20px }
+}

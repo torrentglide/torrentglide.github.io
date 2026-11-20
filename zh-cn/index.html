@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="meta.title">TorrentGlide：下载时也在浏览器中播放种子</title>
+    <meta name="description" content="一款面向 Chrome、Edge、Brave 和 Firefox 的免费浏览器扩展，会在播放器中打开磁力链接和 .torrent 链接，并在下载过程中播放视频。">
+    <meta property="og:title" content="TorrentGlide：下载时也在浏览器中播放种子">
+    <meta property="og:description" content="一款面向 Chrome、Edge、Brave 和 Firefox 的免费浏览器扩展，会在播放器中打开磁力链接和 .torrent 链接，并在下载过程中播放视频。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://torrentglide.github.io/zh-cn/">
+    <meta property="og:image" content="https://torrentglide.github.io/og.png">
+    <meta name="color-scheme" content="dark light">
+    <link rel="icon" href="../icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../style.css">
+    <script type="module" src="../app.js"></script>
+    <link rel="canonical" href="https://torrentglide.github.io/zh-cn/">
+    <link rel="alternate" hreflang="en" href="https://torrentglide.github.io/">
+    <link rel="alternate" hreflang="de" href="https://torrentglide.github.io/de/">
+    <link rel="alternate" hreflang="es" href="https://torrentglide.github.io/es/">
+    <link rel="alternate" hreflang="fr" href="https://torrentglide.github.io/fr/">
+    <link rel="alternate" hreflang="it" href="https://torrentglide.github.io/it/">
+    <link rel="alternate" hreflang="pt-BR" href="https://torrentglide.github.io/pt-br/">
+    <link rel="alternate" hreflang="pl" href="https://torrentglide.github.io/pl/">
+    <link rel="alternate" hreflang="tr" href="https://torrentglide.github.io/tr/">
+    <link rel="alternate" hreflang="ru" href="https://torrentglide.github.io/ru/">
+    <link rel="alternate" hreflang="uk" href="https://torrentglide.github.io/uk/">
+    <link rel="alternate" hreflang="ja" href="https://torrentglide.github.io/ja/">
+    <link rel="alternate" hreflang="zh-CN" href="https://torrentglide.github.io/zh-cn/">
+    <link rel="alternate" hreflang="x-default" href="https://torrentglide.github.io/">
+  </head>
+  <body>
+    <header class="top">
+      <div class="wrap top-inner">
+        <a class="brand" href="#"><img src="../icon.svg" alt="" width="32" height="32"> TorrentGlide</a>
+        <nav>
+          <a class="icon-link" href="https://github.com/trszdev/torrentglide" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 16 16" width="22" height="22" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
+          <select id="language" data-i18n-label="nav.language" aria-label="语言"></select>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <figure class="demo"><div class="demo-frame"><video src="../demo.mp4" autoplay muted loop playsinline preload="auto" data-i18n-label="hero.video" aria-label="TorrentGlide 打开磁力链接并在下载过程中播放"></video></div><figcaption class="credit">Footage: <a href="https://peach.blender.org">Big Buck Bunny</a> © Blender Foundation, CC BY 3.0</figcaption></figure>
+          <div class="hero-text" id="install">
+            <h1 data-i18n="hero.title">下载时也在浏览器中播放种子</h1>
+            <p class="lead" data-i18n="hero.subtitle">点击磁力或 .torrent 链接，几秒后即可开始观看。支持 MKV、HEVC 和字幕。无需账号，不会上传任何东西：种子在你的电脑上运行。</p>
+            <div id="install-flow"></div>
+            <noscript><p><a href="https://chromewebstore.google.com/detail/torrentglide/ankgbfpkdlajgojmgijifehjbkfekhpb">Chrome Web Store</a> · <a href="https://addons.mozilla.org/firefox/addon/torrentglide/">Firefox Add-ons</a></p></noscript>
+            <p class="more"><a id="all-link" href="#all-downloads" data-i18n="install.all">所有下载</a> ↓</p>
+          </div>
+        </div>
+      </section>
+      <section class="install">
+        <div class="wrap">
+          <details id="all-downloads"><summary data-i18n="install.all">所有下载</summary><div id="all-downloads-body"></div></details>
+        </div>
+      </section>
+      <section id="how" class="how">
+        <div class="wrap">
+          <h2 data-i18n="how.title">工作原理</h2>
+          <ol class="cards">
+            <li><h3 data-i18n="how.catchTitle">捕获种子链接</h3><p data-i18n="how.catchText">点击任意站点上的磁力或 .torrent 链接，选择“用 TorrentGlide 打开”，或者让浏览器照常处理。</p></li>
+            <li><h3 data-i18n="how.downloadTitle">你的电脑会下载</h3><p data-i18n="how.downloadText">免费开源的种子服务 rqbit 会在你的电脑上加入下载群体，并优先获取播放位置下方的片段。</p></li>
+            <li><h3 data-i18n="how.playTitle">立即观看</h3><p data-i18n="how.playText">播放器在浏览器中解码 MKV、HEVC、AVI 等格式，支持字幕和季包。无需等待其余部分即可快进。</p></li>
+          </ol>
+        </div>
+      </section>
+      <section class="shots">
+        <div class="wrap">
+          <h2 data-i18n="shots.title">截图</h2>
+          <div class="shots-grid">
+            <figure><img src="../screenshots/1-magnet-links.png" data-i18n-alt="shots.magnet" alt="从任意站点打开磁力和 .torrent 链接" loading="lazy" width="1280" height="800"><figcaption data-i18n="shots.magnet">从任意站点打开磁力和 .torrent 链接</figcaption></figure>
+            <figure><img src="../screenshots/2-every-format.png" data-i18n-alt="shots.formats" alt="播放你的浏览器无法播放的格式，例如 MKV 和 HEVC" loading="lazy" width="1280" height="800"><figcaption data-i18n="shots.formats">播放你的浏览器无法播放的格式，例如 MKV 和 HEVC</figcaption></figure>
+            <figure><img src="../screenshots/3-dark-theme.png" data-i18n-alt="shots.dark" alt="亮色和暗色主题" loading="lazy" width="1280" height="800"><figcaption data-i18n="shots.dark">亮色和暗色主题</figcaption></figure>
+            <figure><img src="../screenshots/4-incognito.png" data-i18n-alt="shots.incognito" alt="无痕模式下的种子，关闭窗口时删除" loading="lazy" width="1280" height="800"><figcaption data-i18n="shots.incognito">无痕模式下的种子，关闭窗口时删除</figcaption></figure>
+          </div>
+        </div>
+      </section>
+      <section class="privacy">
+        <div class="wrap">
+          <h2 data-i18n="privacy.title">设计即隐私</h2>
+          <p data-i18n="privacy.text">无账号、无中间服务器、无追踪。扩展只与你自己电脑上的种子服务通信，此页面没有分析工具或 Cookie。</p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="wrap footer-inner">
+        <a href="https://github.com/trszdev/torrentglide" data-i18n="footer.source">源代码</a>
+        <a href="mailto:torrent.glide@mailservice.com.de" data-i18n="footer.contact">联系方式</a>
+        <span><span data-i18n="footer.builtOn">基于</span> <a href="https://github.com/ikatson/rqbit">rqbit</a> · <a href="https://moviplayer.com">movi-player</a></span>
+      </div>
+    </footer>
+  </body>
+</html>
